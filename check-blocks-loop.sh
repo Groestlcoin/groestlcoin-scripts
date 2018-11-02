@@ -1,19 +1,19 @@
 #!/bin/bash
-# This script will periodically query a bitcoin fullnode for the curreny number of block synched,
+# This script will periodically query a groestlcoin fullnode for the curreny number of block synched,
 # and calculate the block synchronization rate and predicted completion time.
-# Please configure location of bitcoin.conf and get_local_blocks function.
+# Please configure location of groestlcoin.conf and get_local_blocks function.
 
 sleep_m=10 # polling period in minutes
 n=36.0 # moving average number for block sync rate in polling periods
 net_n=144.0 # moving average number for network block mining rate in polling periods
-conf=/media/bitcoin/bitcoin.conf # location of bitcoin.conf
+conf=/media/groestlcoin/groestlcoin.conf # location of groestlcoin.conf
 
 function get_local_blocks {
-	bitcoin-cli --conf=$conf getblockcount
+	groestlcoin-cli --conf=$conf getblockcount
 }
 
 function get_net_blocks {
-	wget -q -O- https://blockexplorer.com/q/getblockcount | grep -oe '[0-9]\+'
+	wget -q -O- http://chainz.cryptoid.info/grs/api.dws?q=getblockcount
 }
 
 sleep_s=$(echo $sleep_m '*' 60 | bc -l)
